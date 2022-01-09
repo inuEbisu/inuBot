@@ -23,6 +23,7 @@ help_guide = """/arcana help - 帮助
 /arcana bind <username> - 绑定
 /arcana info - 基本信息
 /arcana recent - 最近成绩
+/arcana score - 查询 b30 & r10
 /arcana unbind - 解除绑定"""
 success = "操作成功！"
 no_bind = "你还没有绑定喔"
