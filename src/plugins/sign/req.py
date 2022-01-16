@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import random
 from . import conf, data, lang
 
 def natural_date(timestamp):
@@ -45,4 +46,28 @@ def handle_night(qq):
         msg = lang.night_success % (
             natural_time(now - last_morning)
         )
+    return msg
+    
+def gen_sign_info():
+    rp = random.randint(1,100)
+    return {
+        "rp": rp
+    }
+
+def handle_sign(qq):
+    last_sign = data.get(qq, 'last_sign')
+    now = timestamp()
+    msg = ''
+    if is_same_day(last_sign, now):
+        info = data.get(qq, 'last_sign_info')
+        msg = lang.already_sign
+    else:
+        msg = lang.sign_success
+        info = gen_sign_info()
+        data.set(qq, 'last_sign', now)
+        data.set(qq, 'last_sign_info', info)
+    msg += lang.sign % (
+        natural_date(last_sign),
+        info['rp']
+    )
     return msg
