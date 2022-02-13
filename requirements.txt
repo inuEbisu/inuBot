@@ -35,6 +35,7 @@ hyperlink==21.0.0
 idna==3.3
 importlib-metadata==4.10.0
 incremental==21.3.0
+inukit=0.9
 itemadapter==0.4.0
 itemloaders==1.0.4
 jieba==0.42.1

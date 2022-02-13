@@ -3,21 +3,7 @@ import json
 import time
 import random
 from . import conf, data, lang
-
-def natural_date(timestamp):
-    if timestamp == -1:
-        return '无记录'
-    res = time.localtime(int(timestamp))
-    return time.strftime('%Y-%m-%d %H:%M:%S', res)
-
-def natural_time(timestamp):
-    s = timestamp % 60
-    m = (timestamp % 3600) // 60
-    h = timestamp // 3600
-    return f'{h} 时 {m} 分 {s} 秒'
-
-def timestamp():
-    return int(time.mktime(time.localtime()))
+from inukit.timestamp import natural_date, natural_time, timestamp_now
 
 def is_same_day(ts1, ts2) -> bool:
     return ts1 // 86400 == ts2 // 86400
@@ -25,7 +11,7 @@ def is_same_day(ts1, ts2) -> bool:
 def handle_morning(qq):
     last_morning = data.get(qq, 'last_morning')
     last_night = data.get(qq, 'last_night')
-    now = timestamp()
+    now = timestamp_now()
     if last_morning > last_night:
         msg = lang.no_sleep
     else:
@@ -38,7 +24,7 @@ def handle_morning(qq):
 def handle_night(qq):
     last_morning = data.get(qq, 'last_morning')
     last_night = data.get(qq, 'last_night')
-    now = timestamp()
+    now = timestamp_now()
     if last_night > last_morning:
         msg = lang.no_getup
     else:
@@ -56,7 +42,7 @@ def gen_sign_info():
 
 def handle_sign(qq):
     last_sign = data.get(qq, 'last_sign')
-    now = timestamp()
+    now = timestamp_now()
     msg = ''
     if is_same_day(last_sign, now):
         info = data.get(qq, 'last_sign_info')

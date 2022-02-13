@@ -1,12 +1,9 @@
 from os import stat_result
 import requests
 import json
-import time
+from inukit.timestamp import natural_date
 from . import conf, data, lang
 
-def natural_date(timestamp):
-    res = time.localtime(int(timestamp) / 1000)
-    return time.strftime("%Y-%m-%d %H:%M:%S", res)
 
 def diff(d):
     return ("Past", "Present", "Future", "Beyond")[d]
