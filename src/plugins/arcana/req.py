@@ -1,4 +1,3 @@
-from os import stat_result
 import requests
 import json
 from inukit.timestamp import natural_date
@@ -8,10 +7,10 @@ from . import conf, data, lang
 def diff(d):
     return ("Past", "Present", "Future", "Beyond")[d]
 
-def score_format(score) -> str:
-    if not score['rank']:
+def score_format(score: dict) -> str:
+    if not score.get('rank'):
         score['rank'] = 0
-    if not score['date'] and score['time_played']:
+    if not score.get('date') and score.get('time_played'):
         score['date'] = score['time_played']
     return lang.score % (
         score['rank'],
@@ -19,7 +18,7 @@ def score_format(score) -> str:
         score['score'], score['perfect_count'], score['shiny_perfect_count'],
         score['near_count'], score['miss_count'],
         score['rating'] / 100,
-        natural_date(score['date'])
+        natural_date(int(score['date']) // 1000)
     )
 
 def gen_url(path : str) -> str:
@@ -32,7 +31,7 @@ def get(path):
     if res['success']:
         return res['value']
     else:
-        return -1
+        return None
 
 def get_id_by_username(username):
     return get(f'/api/get_id_by_username/{username}')
@@ -45,7 +44,7 @@ def get_scores(user_id):
 
 def handle_info(qq):
     user_id = data.get(qq, 'user_id')
-    if user_id == -1:
+    if user_id == None:
         return lang.no_bind
     info = get_info(user_id)
     msg = lang.user_info % (
@@ -57,7 +56,7 @@ def handle_info(qq):
 
 def handle_recent(qq):
     user_id = data.get(qq, 'user_id')
-    if user_id == -1:
+    if user_id == None:
         return lang.no_bind
     info = get_info(user_id)
     recent = json.loads(info['recent_score'])
@@ -66,7 +65,7 @@ def handle_recent(qq):
 
 def handle_scores(qq) -> tuple:
     user_id = data.get(qq, 'user_id')
-    if user_id == -1:
+    if user_id == None:
         return lang.no_bind
 
     scores = get_scores(user_id)
@@ -81,19 +80,19 @@ def handle_scores(qq) -> tuple:
 
 def handle_bind(qq, username):
     user_id = data.get(qq, 'user_id')
-    if user_id != -1:
+    if user_id != None:
         return lang.already_bind
 
     user_id = get_id_by_username(username)
-    if user_id == -1:
+    if user_id == None:
         return lang.user_not_found
     data.set(qq, 'user_id', user_id)
     return lang.success
 
 def handle_unbind(qq):
     user_id = data.get(qq, 'user_id')
-    if user_id == -1:
+    if user_id == None:
         return lang.no_bind
         
-    data.set(qq, 'user_id', -1)
+    data.set(qq, 'user_id', None)
     return lang.success

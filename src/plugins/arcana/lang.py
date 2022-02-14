@@ -1,4 +1,3 @@
-from . import conf
 # help = """/arcana help
 # /arcana bind <username>
 # /arcana info
