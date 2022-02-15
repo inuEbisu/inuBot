@@ -9,6 +9,9 @@ def get(new=True):
     data = jdata.read()
     if new: # 去掉30天外的
         data = [each for each in data if timestamp() - each['time'] < 30*24*60*60]
+    
+    if len(data) == 0:
+        return None
     key = random.randint(0, len(data)-1)
     res = data[key]
     return res['value']

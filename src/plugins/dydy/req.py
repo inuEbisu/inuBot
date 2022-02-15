@@ -2,8 +2,8 @@ from . import data, lang
 
 def handle_random(new=True):
     res = data.get(new)
-    if res == -1:
-        return lang.error
+    if not res:
+        return lang.no_dydy
     else:
         return res
 
@@ -12,4 +12,4 @@ def handle_add(value):
     if res:
         return lang.error
     else:
-        return lang.succees
+        return lang.success
