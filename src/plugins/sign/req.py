@@ -6,7 +6,9 @@ from . import conf, data, lang
 from inukit.timestamp import natural_date, natural_time, timestamp_now
 
 def is_same_day(ts1, ts2) -> bool:
-    return ts1 // 86400 == ts2 // 86400
+    def d(ts):
+        return natural_date(ts, '%Y-%m-%d')
+    return d(ts1) == d(ts2)
 
 def handle_morning(qq):
     last_morning = data.get(qq, 'last_morning')
