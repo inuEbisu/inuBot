@@ -1,7 +1,6 @@
 from nonebot import on_command
 from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
-from ast import literal_eval as l_eval
 import random as r
 from . import lang
 matcher_random = on_command('random', aliases={'r'}, priority=5)
@@ -34,13 +33,16 @@ async def main_random(bot: Bot, event: Event, state: T_State):
         elif len(args) == 1 and (args[0] == 'bool' or args[0] == 'b'):
             msg = str(r.choice((True, False)))
         elif len(args) == 2 and (args[0] == 'shuffle' or args[0] == 's'):
-            lit = list(l_eval(args[1]))
-            r.shuffle(lit)
-            msg = str(lit)
+            tmp = args[1].split(',')
+            r.shuffle(tmp)
+            msg = str(tmp)
         elif len(args) == 2 and (args[0] == 'choice' or args[0] == 'c'):
-            msg = str(r.choice(l_eval(args[1])))
+            tmp = args[1].split(',')
+            msg = str(r.choice(tmp))
         elif len(args) == 3 and (args[0] == 'choice' or args[0] == 'c') and is_int(args[2]):
-            msg = str(r.sample(l_eval(args[1]), k=int(args[2])))
+            tmp = args[1].split(',')
+            amount = int(args[2])
+            msg = str(r.sample(tmp, k=amount))
         else:
             msg = lang.help_guide
     except Exception as e:
