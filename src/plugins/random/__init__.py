@@ -18,7 +18,7 @@ def is_all_int(t: tuple) -> bool:
 def a_split(s: str) -> list:
     tmp = s.split(',')
     if len(tmp) == 1:
-        tmp = s.split('')
+        tmp = list(s)
     return tmp
 
 @matcher_random.handle()
