@@ -15,6 +15,12 @@ def is_int(i: object) -> bool:
 def is_all_int(t: tuple) -> bool:
     return all([is_int(i) for i in t])
 
+def a_split(s: str) -> list:
+    tmp = s.split(',')
+    if len(tmp) == 1:
+        tmp = s.split('')
+    return tmp
+
 @matcher_random.handle()
 async def main_random(bot: Bot, event: Event, state: T_State):
     args = str(event.get_message()).strip().split()
@@ -33,16 +39,16 @@ async def main_random(bot: Bot, event: Event, state: T_State):
         elif len(args) == 1 and (args[0] == 'bool' or args[0] == 'b'):
             msg = str(r.choice((True, False)))
         elif len(args) == 2 and (args[0] == 'shuffle' or args[0] == 's'):
-            tmp = args[1].split(',')
+            tmp = a_split(args[1])
             r.shuffle(tmp)
-            msg = str(tmp)
+            msg = ','.join(tmp)
         elif len(args) == 2 and (args[0] == 'choice' or args[0] == 'c'):
-            tmp = args[1].split(',')
-            msg = str(r.choice(tmp))
+            tmp = a_split(args[1])
+            msg = ','.join(r.choice(tmp))
         elif len(args) == 3 and (args[0] == 'choice' or args[0] == 'c') and is_int(args[2]):
-            tmp = args[1].split(',')
+            tmp = a_split(args[1])
             amount = int(args[2])
-            msg = str(r.sample(tmp, k=amount))
+            msg = ','.join(r.sample(tmp, k=amount))
         else:
             msg = lang.help_guide
     except Exception as e:
