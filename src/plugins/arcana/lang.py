@@ -18,7 +18,8 @@
 # """
 # args_error = "Wrong/(Too few)/(Too many) arguments"
 # connection_error = "Could not connect to the arcana server"
-help_guide = """/arcana help - 帮助
+help_guide = """其实 https://id.acn.arcaea.icu 更好用不是吗【
+/arcana help - 帮助
 /arcana bind <username> - 绑定
 /arcana info - 基本信息
 /arcana recent - 最近成绩
