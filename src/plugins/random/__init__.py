@@ -44,7 +44,7 @@ async def main_random(bot: Bot, event: Event, state: T_State):
             msg = ','.join(tmp)
         elif len(args) == 2 and (args[0] == 'choice' or args[0] == 'c'):
             tmp = a_split(args[1])
-            msg = ','.join(r.choice(tmp))
+            msg = r.choice(tmp)
         elif len(args) == 3 and (args[0] == 'choice' or args[0] == 'c') and is_int(args[2]):
             tmp = a_split(args[1])
             amount = int(args[2])
